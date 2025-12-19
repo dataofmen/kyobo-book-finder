@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교보문고 책 위치 찾기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 교보문고 책 위치 찾기</h1>
+            <p class="subtitle">원하는 책이 매장 어디에 있는지 쉽게 찾아보세요</p>
+        </header>
+
+        <div class="settings-section">
+            <label for="store-select">
+                <span class="label-icon">🏪</span>
+                선호 매장 설정
+            </label>
+            <select id="store-select">
+                <option value="">매장을 선택하세요</option>
+                <option value="001">광화문점</option>
+                <option value="015">강남점</option>
+                <option value="029">잠실점</option>
+                <option value="058">가든파이브점</option>
+                <option value="002">영등포점</option>
+                <option value="003">목동점</option>
+                <option value="004">천호점</option>
+                <option value="005">분당점</option>
+                <option value="006">부천점</option>
+                <option value="007">인천점</option>
+                <option value="008">대구점</option>
+                <option value="009">부산점</option>
+                <option value="010">울산점</option>
+                <option value="011">창원점</option>
+                <option value="012">천안점</option>
+                <option value="013">전주점</option>
+                <option value="014">광주점</option>
+            </select>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="책 제목을 입력하세요 (예: 미움받을 용기)"
+                    autocomplete="off"
+                >
+                <button id="search-btn">
+                    <span class="btn-text">검색</span>
+                    <span class="btn-icon">🔍</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>검색 중...</p>
+        </div>
+
+        <div id="search-results" class="results-section hidden">
+            <h2>검색 결과</h2>
+            <div id="results-list"></div>
+        </div>
+
+        <div id="book-info" class="book-info-section hidden">
+            <h2>책 정보</h2>
+            <div id="book-details"></div>
+        </div>
+
+        <div id="location-info" class="location-section hidden">
+            <h2>매장 위치 정보</h2>
+            <div id="location-details"></div>
+        </div>
+
+        <div id="error-message" class="error-section hidden">
+            <div class="error-content">
+                <span class="error-icon">⚠️</span>
+                <p id="error-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>이 도구는 교보문고 공식 서비스가 아닙니다. 정보는 참고용으로만 사용하세요.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
