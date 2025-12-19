@@ -24,10 +24,17 @@ def index():
     """Serve the main HTML page"""
     return send_from_directory('.', 'index.html')
 
+# Digital Asset Links for TWA
+@app.route('/.well-known/assetlinks.json')
+def asset_links():
+    """Serve Digital Asset Links for Android TWA"""
+    return send_from_directory('.well-known', 'assetlinks.json')
+
 @app.route('/<path:path>')
 def serve_static(path):
     """Serve static files (CSS, JS, etc.)"""
     return send_from_directory('.', path)
+
 
 @app.route('/api/search', methods=['GET'])
 def search_books():
