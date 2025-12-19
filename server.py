@@ -111,64 +111,78 @@ def get_book_details(product_id):
     
     try:
         with sync_playwright() as p:
-            # Launch browser
-            browser = p.chromium.launch(headless=True)
-            page = browser.new_page()
+            browser = None
+            page = None
+            try:
+                # Launch browser
+                browser = p.chromium.launch(headless=True)
+                page = browser.new_page()
+                
+                # Navigate to book detail page
+                detail_url = f'https://product.kyobobook.co.kr/detail/{product_id}'
+                page.goto(detail_url, wait_until='networkidle', timeout=15000)
+                
+                # Extract ISBN using JavaScript
+                barcode = page.evaluate("""
+                    () => {
+                        const th = Array.from(document.querySelectorAll('th'))
+                            .find(el => el.textContent.trim() === 'ISBN');
+                        return th?.nextElementSibling?.textContent.trim() || null;
+                    }
+                """)
+                
+                if not barcode:
+                    return jsonify({'error': '바코드(ISBN)를 찾을 수 없습니다'}), 404
+                
+                # Extract title
+                title = page.evaluate("""
+                    () => {
+                        const elem = document.querySelector('h1.prod_title, div.prod_title, .prod_info h1');
+                        return elem?.textContent.trim() || '';
+                    }
+                """)
+                
+                # Extract author
+                author = page.evaluate("""
+                    () => {
+                        const elem = document.querySelector('span.author a, div.author, .prod_author a');
+                        return elem?.textContent.trim() || '';
+                    }
+                """)
+                
+                # Extract publisher
+                publisher = page.evaluate("""
+                    () => {
+                        const elem = document.querySelector('span.publisher a, div.publisher, .prod_publish a');
+                        return elem?.textContent.trim() || '';
+                    }
+                """)
+                
+                return jsonify({
+                    'success': True,
+                    'product_id': product_id,
+                    'barcode': barcode,
+                    'title': title,
+                    'author': author,
+                    'publisher': publisher
+                })
             
-            # Navigate to book detail page
-            detail_url = f'https://product.kyobobook.co.kr/detail/{product_id}'
-            page.goto(detail_url, wait_until='networkidle', timeout=15000)
-            
-            # Extract ISBN using JavaScript
-            barcode = page.evaluate("""
-                () => {
-                    const th = Array.from(document.querySelectorAll('th'))
-                        .find(el => el.textContent.trim() === 'ISBN');
-                    return th?.nextElementSibling?.textContent.trim() || null;
-                }
-            """)
-            
-            if not barcode:
-                browser.close()
-                return jsonify({'error': '바코드(ISBN)를 찾을 수 없습니다'}), 404
-            
-            # Extract title
-            title = page.evaluate("""
-                () => {
-                    const elem = document.querySelector('h1.prod_title, div.prod_title, .prod_info h1');
-                    return elem?.textContent.trim() || '';
-                }
-            """)
-            
-            # Extract author
-            author = page.evaluate("""
-                () => {
-                    const elem = document.querySelector('span.author a, div.author, .prod_author a');
-                    return elem?.textContent.trim() || '';
-                }
-            """)
-            
-            # Extract publisher
-            publisher = page.evaluate("""
-                () => {
-                    const elem = document.querySelector('span.publisher a, div.publisher, .prod_publish a');
-                    return elem?.textContent.trim() || '';
-                }
-            """)
-            
-            browser.close()
-            
-            return jsonify({
-                'success': True,
-                'product_id': product_id,
-                'barcode': barcode,
-                'title': title,
-                'author': author,
-                'publisher': publisher
-            })
+            finally:
+                # Ensure proper cleanup
+                if page:
+                    try:
+                        page.close()
+                    except:
+                        pass
+                if browser:
+                    try:
+                        browser.close()
+                    except:
+                        pass
         
     except Exception as e:
         return jsonify({'error': f'처리 중 오류가 발생했습니다: {str(e)}'}), 500
+
 
 
 
@@ -185,102 +199,117 @@ def get_location():
     
     try:
         with sync_playwright() as p:
-            # Launch browser
-            browser = p.chromium.launch(headless=True)
-            page = browser.new_page()
-            
-            # Navigate to kiosk page
-            kiosk_url = f'https://kiosk.kyobobook.co.kr/bookInfoInk?site={store_code}&barcode={barcode}&ejkGb=KOR'
-            page.goto(kiosk_url, wait_until='networkidle', timeout=15000)
-            
-            # Extract all text from the page
-            page_text = page.evaluate("() => document.body.innerText")
-            
-            browser.close()
-            
-            # Parse the text to extract location and stock information
-            lines = [line.strip() for line in page_text.split('\n') if line.strip()]
-            
-            # Extract stock information
-            stock = 0
-            stock_text = ''
-            for line in lines:
-                if line.startswith('재고:'):
-                    stock_text = line
-                    # Extract number from "재고: 22부(*재고는 실시간으로 변경)"
-                    stock_match = re.search(r'재고:\s*(\d+)부', line)
-                    if stock_match:
-                        stock = int(stock_match.group(1))
-                    break
-            
-            # Extract location information
-            # Location entries appear between the stock line and "도서위치:" marker
-            # They come in pairs: first line has [X관 Y] 평대, second line has description
-            locations = []
-            in_location_section = False
-            temp_lines = []
-            
-            for i, line in enumerate(lines):
-                # Start collecting after stock line
-                if line.startswith('재고:'):
-                    in_location_section = True
-                    continue
+            browser = None
+            page = None
+            try:
+                # Launch browser
+                browser = p.chromium.launch(headless=True)
+                page = browser.new_page()
                 
-                # Stop at the location marker or ISBN
-                if line.startswith('도서위치:') or line.startswith('ISBN'):
-                    break
+                # Navigate to kiosk page
+                kiosk_url = f'https://kiosk.kyobobook.co.kr/bookInfoInk?site={store_code}&barcode={barcode}&ejkGb=KOR'
+                page.goto(kiosk_url, wait_until='networkidle', timeout=15000)
                 
-                # Collect location entries
-                if in_location_section:
-                    # Skip empty lines
-                    if not line:
+                # Extract all text from the page
+                page_text = page.evaluate("() => document.body.innerText")
+                
+                # Parse the text to extract location and stock information
+                lines = [line.strip() for line in page_text.split('\n') if line.strip()]
+                
+                # Extract stock information
+                stock = 0
+                stock_text = ''
+                for line in lines:
+                    if line.startswith('재고:'):
+                        stock_text = line
+                        # Extract number from "재고: 22부(*재고는 실시간으로 변경)"
+                        stock_match = re.search(r'재고:\s*(\d+)부', line)
+                        if stock_match:
+                            stock = int(stock_match.group(1))
+                        break
+                
+                # Extract location information
+                # Location entries appear between the stock line and "도서위치:" marker
+                # They come in pairs: first line has [X관 Y] 평대, second line has description
+                locations = []
+                in_location_section = False
+                temp_lines = []
+                
+                for i, line in enumerate(lines):
+                    # Start collecting after stock line
+                    if line.startswith('재고:'):
+                        in_location_section = True
                         continue
                     
-                    # Add to temp lines
-                    temp_lines.append(line)
-            
-            # Combine pairs of lines into single location entries
-            # Format: "[K관 6] 평대 : 심리학"
-            i = 0
-            while i < len(temp_lines):
-                if i + 1 < len(temp_lines):
-                    # Check if first line looks like a location marker (contains '[' and ']')
-                    if '[' in temp_lines[i] and ']' in temp_lines[i]:
-                        # Combine with next line
-                        combined = f"{temp_lines[i]} : {temp_lines[i + 1]}"
-                        locations.append(combined)
-                        i += 2
+                    # Stop at the location marker or ISBN
+                    if line.startswith('도서위치:') or line.startswith('ISBN'):
+                        break
+                    
+                    # Collect location entries
+                    if in_location_section:
+                        # Skip empty lines
+                        if not line:
+                            continue
+                        
+                        # Add to temp lines
+                        temp_lines.append(line)
+                
+                # Combine pairs of lines into single location entries
+                # Format: "[K관 6] 평대 : 심리학"
+                i = 0
+                while i < len(temp_lines):
+                    if i + 1 < len(temp_lines):
+                        # Check if first line looks like a location marker (contains '[' and ']')
+                        if '[' in temp_lines[i] and ']' in temp_lines[i]:
+                            # Combine with next line
+                            combined = f"{temp_lines[i]} : {temp_lines[i + 1]}"
+                            locations.append(combined)
+                            i += 2
+                        else:
+                            # Single line entry
+                            locations.append(temp_lines[i])
+                            i += 1
                     else:
-                        # Single line entry
+                        # Last line, add as is
                         locations.append(temp_lines[i])
                         i += 1
-                else:
-                    # Last line, add as is
-                    locations.append(temp_lines[i])
-                    i += 1
-            
-            # If no locations found, return error
-            if not locations:
+                
+                # If no locations found, return error
+                if not locations:
+                    return jsonify({
+                        'success': False,
+                        'error': '위치 정보를 찾을 수 없습니다',
+                        'barcode': barcode,
+                        'store_code': store_code,
+                        'kiosk_url': kiosk_url
+                    }), 404
+                
                 return jsonify({
-                    'success': False,
-                    'error': '위치 정보를 찾을 수 없습니다',
+                    'success': True,
                     'barcode': barcode,
                     'store_code': store_code,
+                    'locations': locations,
+                    'stock': stock,
+                    'stock_text': stock_text,
                     'kiosk_url': kiosk_url
-                }), 404
+                })
             
-            return jsonify({
-                'success': True,
-                'barcode': barcode,
-                'store_code': store_code,
-                'locations': locations,
-                'stock': stock,
-                'stock_text': stock_text,
-                'kiosk_url': kiosk_url
-            })
+            finally:
+                # Ensure proper cleanup
+                if page:
+                    try:
+                        page.close()
+                    except:
+                        pass
+                if browser:
+                    try:
+                        browser.close()
+                    except:
+                        pass
         
     except Exception as e:
         return jsonify({'error': f'처리 중 오류가 발생했습니다: {str(e)}'}), 500
+
 
 
 
