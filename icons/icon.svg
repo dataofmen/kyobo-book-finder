@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#1e3a8a" rx="64"/>
+  
+  <!-- Book shape -->
+  <g transform="translate(256, 256)">
+    <!-- Book cover -->
+    <rect x="-140" y="-160" width="280" height="320" fill="#3b82f6" rx="8"/>
+    
+    <!-- Book pages -->
+    <rect x="-130" y="-150" width="260" height="300" fill="#f8fafc" rx="4"/>
+    
+    <!-- Text lines -->
+    <rect x="-100" y="-120" width="200" height="20" fill="#1e3a8a" rx="4"/>
+    <rect x="-100" y="-80" width="200" height="20" fill="#1e3a8a" rx="4"/>
+    <rect x="-100" y="-40" width="160" height="20" fill="#1e3a8a" rx="4"/>
+    <rect x="-100" y="0" width="200" height="20" fill="#64748b" rx="4"/>
+    <rect x="-100" y="40" width="180" height="20" fill="#64748b" rx="4"/>
+    <rect x="-100" y="80" width="140" height="20" fill="#64748b" rx="4"/>
+    
+    <!-- Search magnifying glass -->
+    <g transform="translate(80, 100)">
+      <circle cx="0" cy="0" r="45" fill="#f59e0b" stroke="#fff" stroke-width="8"/>
+      <circle cx="0" cy="0" r="30" fill="none" stroke="#fff" stroke-width="8"/>
+      <line x1="25" y1="25" x2="50" y2="50" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
