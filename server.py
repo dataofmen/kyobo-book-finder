@@ -1,14 +1,15 @@
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import requests
 from bs4 import BeautifulSoup
 import re
 from urllib.parse import quote
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 # Enable CORS for all routes, including file:// protocol
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
@@ -16,6 +17,17 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
+
+# Serve frontend files
+@app.route('/')
+def index():
+    """Serve the main HTML page"""
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve static files (CSS, JS, etc.)"""
+    return send_from_directory('.', path)
 
 @app.route('/api/search', methods=['GET'])
 def search_books():

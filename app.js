@@ -19,8 +19,10 @@ const STORE_NAMES = {
     '014': '광주점'
 };
 
-// API base URL
-const API_BASE_URL = 'http://localhost:5001/api';
+// API base URL - works both locally and in production
+const API_BASE_URL = window.location.protocol === 'file:'
+    ? 'http://localhost:5001/api'  // Local development
+    : `${window.location.origin}/api`;  // Production (Railway)
 
 // DOM elements
 const storeSelect = document.getElementById('store-select');
