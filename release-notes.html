@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>릴리즈 노트 - 교보문고 책 위치 찾기</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #1e3a8a;
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #3b82f6;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .release-date {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 30px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .tech-stack {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .tech-stack ul {
+            margin: 5px 0;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .future-plans {
+            background: #ede9fe;
+            border-left: 4px solid #8b5cf6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+
+        strong {
+            color: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            📚 릴리즈 노트
+            <span class="version-badge">v1.0.0</span>
+        </h1>
+        <p class="release-date"><strong>출시일:</strong> 2025년 12월 22일</p>
+
+        <h2><span class="emoji">🎉</span>첫 번째 테스트 버전</h2>
+        <p>교보문고 매장에서 원하는 책의 위치를 쉽게 찾아주는 웹 애플리케이션이 출시되었습니다!</p>
+
+        <h3><span class="emoji">✨</span>핵심 기능</h3>
+        <ul class="feature-list">
+            <li><strong>책 검색:</strong> 제목으로 교보문고 도서를 빠르게 검색할 수 있습니다</li>
+            <li><strong>위치 찾기:</strong> 선택한 매장에서 책의 정확한 위치를 확인할 수 있습니다
+                <ul>
+                    <li>관별 위치 정보 (예: [K관 6] 평대)</li>
+                    <li>섹션별 분류 정보 (예: 심리학, 자기계발 등)</li>
+                </ul>
+            </li>
+            <li><strong>실시간 재고 확인:</strong> 선택한 매장의 실시간 재고 수량을 확인할 수 있습니다</li>
+            <li><strong>전국 매장 지원:</strong> 광화문점, 강남점, 잠실점 등 주요 교보문고 매장 지원</li>
+        </ul>
+
+        <h3><span class="emoji">📋</span>상세 정보 제공</h3>
+        <ul>
+            <li>ISBN 바코드 정보</li>
+            <li>저자 및 출판사 정보</li>
+            <li>도서 상세 페이지 링크</li>
+        </ul>
+
+        <h3><span class="emoji">💡</span>사용자 경험</h3>
+        <ul>
+            <li><strong>반응형 디자인:</strong> 모바일, 태블릿, 데스크톱 모든 기기에서 최적화된 화면</li>
+            <li><strong>직관적인 인터페이스:</strong> 간단한 3단계로 책 위치 확인
+                <ol>
+                    <li>매장 선택</li>
+                    <li>책 제목 검색</li>
+                    <li>검색 결과에서 원하는 책 선택</li>
+                </ol>
+            </li>
+            <li><strong>빠른 검색:</strong> 실시간 검색 결과 제공</li>
+        </ul>
+
+        <h2><span class="emoji">🔧</span>기술 스택</h2>
+
+        <div class="tech-stack">
+            <h3>백엔드</h3>
+            <ul>
+                <li>Flask 웹 프레임워크</li>
+                <li>Playwright를 활용한 동적 콘텐츠 스크래핑</li>
+                <li>BeautifulSoup4 HTML 파싱</li>
+                <li>Gunicorn 프로덕션 서버</li>
+            </ul>
+        </div>
+
+        <div class="tech-stack">
+            <h3>프론트엔드</h3>
+            <ul>
+                <li>순수 HTML/CSS/JavaScript</li>
+                <li>모바일 최적화 반응형 디자인</li>
+                <li>직관적인 사용자 인터페이스</li>
+            </ul>
+        </div>
+
+        <h2><span class="emoji">🌐</span>배포</h2>
+        <ul>
+            <li>Railway 플랫폼을 통한 클라우드 배포</li>
+            <li>안정적인 24/7 서비스 제공</li>
+            <li>자동 재시작 및 오류 복구 기능</li>
+        </ul>
+
+        <div class="warning-box">
+            <h3><span class="emoji">⚠️</span>알려진 제한사항</h3>
+            <ul>
+                <li>이 도구는 교보문고 공식 서비스가 아닙니다</li>
+                <li>정보는 참고용으로만 사용하시기 바랍니다</li>
+                <li>실시간 재고는 변동될 수 있습니다</li>
+            </ul>
+        </div>
+
+        <div class="future-plans">
+            <h3><span class="emoji">🚀</span>향후 계획</h3>
+            <ul>
+                <li>즐겨찾기 기능 추가</li>
+                <li>검색 기록 저장</li>
+                <li>여러 매장 동시 재고 확인</li>
+                <li>PWA(Progressive Web App) 지원으로 앱처럼 설치 가능</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p><strong>Created with ❤️ for book lovers</strong></p>
+            <p>이 앱은 교보문고의 공식 앱이 아닙니다.</p>
+        </div>
+    </div>
+</body>
+
+</html>
