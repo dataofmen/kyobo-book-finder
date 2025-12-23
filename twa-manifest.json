@@ -1,0 +1,52 @@
+{
+  "packageId": "com.kyobo.bookfinder",
+  "host": "web-production-e6d14.up.railway.app",
+  "name": "교보문고 책 위치 찾기",
+  "launcherName": "책 위치 찾기",
+  "display": "standalone",
+  "themeColor": "#1E3A8A",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#F8FAFC",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://web-production-e6d14.up.railway.app/icons/app-icon-512.png",
+  "maskableIconUrl": "https://web-production-e6d14.up.railway.app/icons/app-icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/Users/hmkwon/Project/023_kyobo_book_where/android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1.0.3",
+  "appVersionCode": 6,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://web-production-e6d14.up.railway.app/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": false,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://web-production-e6d14.up.railway.app/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": [
+    {
+      "name": "android",
+      "value": "38:21:2D:44:C0:F6:9C:E4:D2:EB:70:2F:3A:5A:8F:DD:03:9F:2F:EF:B0:B6:D8:7B:14:08:63:74:1A:BB:CB:8B"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "1.0.3"
+}
